@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}뉴스 아카이브{% endblock %}</title>
+    <link rel="manifest" href="/static/manifest.json">
+    <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/static/icons/icon-192.png">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="뉴스">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            var t = localStorage.getItem('news-theme') || 'sepia';
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="masthead">
+            <div class="masthead-side masthead-left">
+                <div class="theme-switcher">
+                    <button class="theme-btn" data-theme="white" title="White" onclick="setTheme('white')"></button>
+                    <button class="theme-btn" data-theme="sepia" title="Sepia" onclick="setTheme('sepia')"></button>
+                    <button class="theme-btn" data-theme="gray" title="Gray" onclick="setTheme('gray')"></button>
+                    <button class="theme-btn" data-theme="dark" title="Dark" onclick="setTheme('dark')"></button>
+                </div>
+            </div>
+            <a href="/" class="logo">
+                <span class="logo-main">News Archive</span>
+            </a>
+            <div class="masthead-side masthead-right">
+                <form class="header-search" action="/search" method="get">
+                    <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" name="q" placeholder="검색" value="{{ request.args.get('q', '') }}">
+                </form>
+                <button class="header-refresh" onclick="reloadPage()" title="새로고침">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <div class="nav-group nav-pages">
+                <a href="/">브리핑</a>
+                <a href="/briefing/history">히스토리</a>
+                <a href="/archive">아카이브</a>
+            </div>
+            <div class="nav-divider"></div>
+            <div class="nav-group">
+                {% for key, name in categories.items() %}
+                <a href="/category/{{ key }}" class="nav-cat cat-{{ key }}">{{ name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </nav>
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <div class="status-bar">
+            <span id="status-hdd"></span>
+            <span id="status-ollama"></span>
+            <span id="status-articles"></span>
+            <span id="status-briefing"></span>
+            <button onclick="manualCollect()">수집</button>
+        </div>
+    </footer>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

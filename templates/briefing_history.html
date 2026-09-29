@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}브리핑 히스토리{% endblock %}
+{% block content %}
+<div class="page-head">
+    <h1>히스토리</h1>
+    <p class="page-sub">3시간마다 생성되는 흐름 분석 기록</p>
+</div>
+
+{% for b in briefings %}
+<a href="/briefing/{{ b._filename }}" class="briefing-history-card card" style="text-decoration:none; color:inherit; display:block;">
+    <div class="article-meta">
+        <span class="date">{{ b.generated_at[:16] }}</span>
+        <span>{{ b.article_count }}건 분석</span>
+        <span>{{ b.theme_count }}개 테마</span>
+    </div>
+    {% if b.overall %}
+    <h3>{{ b.overall.headline or '브리핑' }}</h3>
+    <p>{{ b.overall.executive_summary[:200] }}...</p>
+    {% endif %}
+    <div class="theme-tags">
+        {% for theme in b.themes[:5] %}
+        <span class="keyword-tag">{{ theme.title[:30] }}</span>
+        {% endfor %}
+    </div>
+</a>
+{% endfor %}
+
+{% if not briefings %}
+<p class="empty">아직 브리핑 히스토리가 없습니다.</p>
+{% endif %}
+{% endblock %}
