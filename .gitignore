@@ -1,0 +1,27 @@
+# 수집 데이터 · 인덱스 · 벡터DB (런타임 생성물)
+/data/
+/logs/
+chromadb/
+*.log
+
+# LoRA 어댑터 가중치 (대용량 바이너리)
+*.safetensors
+*.gguf
+*.bin
+*.pt
+
+# 환경 설정 (비밀값)
+.env
+.env.*
+!.env.example
+
+# 파이썬
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS / 에디터
+.DS_Store
+.idea/
+.vscode/

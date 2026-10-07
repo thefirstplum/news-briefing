@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{ date }} 아카이브{% endblock %}
+{% block content %}
+<div class="page-head">
+    <h1>{{ date }}</h1>
+    <p class="page-sub">이 날의 뉴스</p>
+</div>
+
+{% for article in articles %}
+<div class="article-card">
+    <div class="article-meta">
+        <span class="badge cat-{{ article.category }}">{{ categories.get(article.category, article.category) }}</span>
+        <span class="source">{{ article.source }}</span>
+        <span class="date">{{ article.published_at[:16] if article.published_at else '' }}</span>
+    </div>
+    <h3>
+        {% if article.id %}
+        <a href="/article/{{ article.id }}?date={{ date }}&category={{ article.category }}">{{ article.title }}</a>
+        {% else %}
+        {{ article.title }}
+        {% endif %}
+    </h3>
+</div>
+{% endfor %}
+{% if not articles %}
+<p class="empty">이 날짜에 수집된 기사가 없습니다.</p>
+{% endif %}
+{% endblock %}

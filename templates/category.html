@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ category_name }} - 뉴스{% endblock %}
+{% block content %}
+<div class="page-head">
+    <h1>{{ category_name }}</h1>
+    <p class="page-sub">오늘의 {{ category_name }} 뉴스</p>
+</div>
+{% for article in articles %}
+<div class="article-card">
+    <div class="article-meta">
+        <span class="source">{{ article.source }}</span>
+        <span class="date">{{ article.published_at[:16] }}</span>
+        {% if article.importance %}
+        <span class="importance imp-{{ article.importance }}">{{ article.importance }}</span>
+        {% endif %}
+    </div>
+    <h3><a href="/article/{{ article.id }}?date={{ article.date }}&category={{ article.category }}">{{ article.title }}</a></h3>
+</div>
+{% endfor %}
+{% if not articles %}
+<p class="empty">이 카테고리에 수집된 기사가 없습니다.</p>
+{% endif %}
+{% endblock %}

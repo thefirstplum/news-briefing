@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}검색: {{ query }}{% endblock %}
+{% block content %}
+<div class="page-head">
+    <h1>검색</h1>
+</div>
+<form class="search-box" action="/search" method="get">
+    <input type="text" name="q" value="{{ query }}" placeholder="기사 제목, 키워드로 검색..." autofocus>
+    <button type="submit">검색</button>
+</form>
+
+{% if results %}
+<p class="result-count">{{ results|length }}건의 결과</p>
+{% for article in results %}
+<div class="article-card">
+    <div class="article-meta">
+        <span class="badge cat-{{ article.category }}">{{ categories.get(article.category, article.category) }}</span>
+        <span class="source">{{ article.source }}</span>
+        <span class="date">{{ article.published_at[:16] }}</span>
+    </div>
+    <h3><a href="/article/{{ article.id }}?date={{ article.date }}&category={{ article.category }}">{{ article.title }}</a></h3>
+</div>
+{% endfor %}
+{% elif query %}
+<p class="empty">검색 결과가 없습니다.</p>
+{% endif %}
+{% endblock %}
