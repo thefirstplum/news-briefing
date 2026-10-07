@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}뉴스 브리핑{% endblock %}
+{% block content %}
+{% if briefing %}
+{% if prev_file is defined or next_file is defined %}
+<nav class="briefing-nav">
+    {% if prev_file %}
+    <a href="/briefing/{{ prev_file }}" class="nav-prev">&larr; 이전 브리핑</a>
+    {% else %}
+    <span class="nav-prev disabled">&larr; 이전 브리핑</span>
+    {% endif %}
+    <a href="/briefing/history" class="nav-center">전체 히스토리</a>
+    {% if next_file %}
+    <a href="/briefing/{{ next_file }}" class="nav-next">다음 브리핑 &rarr;</a>
+    {% else %}
+    <span class="nav-next disabled">다음 브리핑 &rarr;</span>
+    {% endif %}
+</nav>
+{% endif %}
+
+<section class="overall-briefing">
+    <h1>{{ briefing.overall.headline if briefing.overall else '뉴스 브리핑' }}</h1>
+    <p class="briefing-time">{{ briefing.generated_at[:16] }} 기준 · {{ briefing.article_count }}건 분석 · {{ briefing.theme_count }}개 테마</p>
+
+    {% if briefing.overall %}
+    <div class="executive-summary">
+        <p>{{ briefing.overall.executive_summary }}</p>
+    </div>
+
+    {% if briefing.overall.watch_list %}
+    <div class="info-box watch">
+        <h3>주시 포인트</h3>
+        <ul>{% for item in briefing.overall.watch_list %}<li>{{ item }}</li>{% endfor %}</ul>
+    </div>
+    {% endif %}
+
+    <div class="info-columns">
+        {% if briefing.overall.risk_factors %}
+        <div class="info-box risk">
+            <h3>리스크</h3>
+            <ul>{% for item in briefing.overall.risk_factors %}<li>{{ item }}</li>{% endfor %}</ul>
+        </div>
+        {% endif %}
+        {% if briefing.overall.opportunities %}
+        <div class="info-box opportunity">
+            <h3>기회</h3>
+            <ul>{% for item in briefing.overall.opportunities %}<li>{{ item }}</li>{% endfor %}</ul>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</section>
+
+<div class="section-head">
+    <span class="section-label">테마별</span>
+    <span class="section-sub">상세 분석</span>
+</div>
+
+{% for theme in briefing.themes|sort(attribute='importance', reverse=true) %}
+{% if theme.theme_id == 'unclassified' %}
+<section class="theme-card unclassified-card" id="{{ theme.theme_id }}">
+    <div class="theme-header">
+        <span class="theme-sources">{{ theme.article_count }}건</span>
+    </div>
+    <h3>{{ theme.title }}</h3>
+    <ul class="unclassified-list">
+        {% for art in theme._articles %}
+        <li>
+            <a href="/article/{{ art.id if art.id else '#' }}" class="unclassified-article-link">
+                {% if art.source %}<span class="art-source">{{ art.source }}</span>{% endif %}
+                {{ art.title }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% else %}
+<section class="theme-card" id="{{ theme.theme_id }}">
+    <div class="theme-header">
+        <span class="importance-badge imp-{{ theme.importance }}">{{ theme.importance }}/10</span>
+        <span class="theme-sources">{{ theme.article_count }}건</span>
+    </div>
+    <h3><a href="/theme/{{ theme.theme_id }}">{{ theme.title }}</a></h3>
+
+    <div class="theme-brief">
+        <p><strong>배경</strong> {{ theme.background }}</p>
+        <p><strong>현황</strong> {{ theme.current_situation }}</p>
+        <p><strong>흐름</strong> {{ theme.flow_analysis }}</p>
+        <p><strong>전망</strong> {{ theme.prediction }}</p>
+        {% if theme.korea_impact %}
+        <p><strong>한국 영향</strong> {{ theme.korea_impact }}</p>
+        {% endif %}
+    </div>
+
+    {% if theme.keywords %}
+    <div class="keywords">
+        {% for kw in theme.keywords %}
+        <a href="/search?q={{ kw }}" class="keyword-tag">{{ kw }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="theme-feedback" data-theme-id="{{ theme.theme_id }}">
+        <button class="fb-btn fb-good" onclick="sendFeedback('{{ theme.theme_id }}', 'good', this)" title="좋은 분석">&#x1F44D;</button>
+        <button class="fb-btn fb-bad" onclick="sendFeedback('{{ theme.theme_id }}', 'bad', this)" title="개선 필요">&#x1F44E;</button>
+        <span class="fb-status"></span>
+    </div>
+</section>
+{% endif %}
+{% endfor %}
+
+{% else %}
+<section class="empty-state">
+    <h2>아직 브리핑이 없습니다</h2>
+    <p>뉴스 수집이 완료되면 흐름 분석 브리핑이 여기에 표시됩니다.</p>
+    <button onclick="manualCollect()">지금 수집 시작</button>
+</section>
+{% endif %}
+
+{% if stats %}
+<section class="stats-bar">
+    <span>기사 {{ stats.total_articles }}건</span>
+    <span>{{ stats.dates }}일</span>
+    {% for key, count in stats.categories.items() %}
+    <a href="/category/{{ key }}">{{ categories.get(key, key) }} {{ count }}</a>
+    {% endfor %}
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ theme.title }}{% endblock %}
+{% block content %}
+<article class="theme-detail">
+    <div class="theme-header">
+        <span class="importance-badge imp-{{ theme.importance }}">중요도 {{ theme.importance }}/10</span>
+        <span class="theme-sources">{{ theme.article_sources|join(', ') }} | {{ theme.article_count }}건</span>
+    </div>
+    <h1>{{ theme.title }}</h1>
+
+    <section class="analysis-section card">
+        <h2>배경</h2>
+        <p>{{ theme.background }}</p>
+    </section>
+
+    <section class="analysis-section card">
+        <h2>현재 상황</h2>
+        <p>{{ theme.current_situation }}</p>
+    </section>
+
+    <section class="analysis-section card">
+        <h2>흐름 분석</h2>
+        <p>{{ theme.flow_analysis }}</p>
+    </section>
+
+    <section class="analysis-section card">
+        <h2>향후 전망</h2>
+        <p>{{ theme.prediction }}</p>
+    </section>
+
+    {% if theme.korea_impact %}
+    <section class="analysis-section card">
+        <h2>한국 영향</h2>
+        <p>{{ theme.korea_impact }}</p>
+    </section>
+    {% endif %}
+
+    {% if theme.key_facts %}
+    <section class="card">
+        <h2>핵심 팩트</h2>
+        <ul class="key-facts-list">
+            {% for fact in theme.key_facts %}
+            <li>{{ fact }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% if theme.keywords %}
+    <div class="keywords" style="margin-top: 16px;">
+        {% for kw in theme.keywords %}
+        <a href="/search?q={{ kw }}" class="keyword-tag">{{ kw }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</article>
+{% endblock %}

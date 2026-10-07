@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="80" fill="#1a1a2e"/>
+  <rect x="60" y="80" width="392" height="352" rx="16" fill="#f5f0e8"/>
+  <rect x="90" y="110" width="240" height="16" rx="3" fill="#1a1a2e"/>
+  <rect x="90" y="140" width="180" height="8" rx="2" fill="#666"/>
+  <rect x="90" y="160" width="332" height="2" fill="#ccc"/>
+  <rect x="90" y="180" width="150" height="10" rx="2" fill="#1a1a2e"/>
+  <rect x="90" y="200" width="332" height="6" rx="2" fill="#999"/>
+  <rect x="90" y="216" width="320" height="6" rx="2" fill="#999"/>
+  <rect x="90" y="232" width="300" height="6" rx="2" fill="#999"/>
+  <rect x="90" y="260" width="150" height="10" rx="2" fill="#1a1a2e"/>
+  <rect x="90" y="280" width="332" height="6" rx="2" fill="#999"/>
+  <rect x="90" y="296" width="310" height="6" rx="2" fill="#999"/>
+  <rect x="90" y="312" width="280" height="6" rx="2" fill="#999"/>
+  <rect x="90" y="340" width="150" height="10" rx="2" fill="#1a1a2e"/>
+  <rect x="90" y="360" width="332" height="6" rx="2" fill="#999"/>
+  <rect x="90" y="376" width="290" height="6" rx="2" fill="#999"/>
+  <circle cx="410" cy="120" r="30" fill="#e74c3c" opacity="0.9"/>
+  <text x="410" y="130" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="28" fill="white">N</text>
+</svg>

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}아카이브{% endblock %}
+{% block content %}
+<div class="page-head">
+    <h1>아카이브</h1>
+    <p class="page-sub">날짜별 뉴스 모아보기</p>
+</div>
+<div class="archive-grid">
+    {% for date in dates %}
+    <a href="/archive/{{ date }}" class="archive-card">
+        <span class="archive-date">{{ date }}</span>
+    </a>
+    {% endfor %}
+</div>
+{% if not dates %}
+<p class="empty">아카이브된 뉴스가 없습니다.</p>
+{% endif %}
+{% endblock %}

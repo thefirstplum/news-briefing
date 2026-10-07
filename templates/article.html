@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+<article class="article-detail">
+    <div class="article-header">
+        <span class="badge cat-{{ article.category }}">{{ categories.get(article.category, article.category) }}</span>
+        <span class="source">{{ article.source }}</span>
+        <span class="date">{{ article.published_at }}</span>
+    </div>
+    <h1>{{ article.title }}</h1>
+
+    {% if article.url %}
+    <a href="{{ article.url }}" target="_blank" class="original-link">원문 보기</a>
+    {% endif %}
+
+    <div class="content-snippet">
+        <p>{{ article.content_snippet }}</p>
+    </div>
+
+    {% if article.ai_analysis %}
+    <section class="ai-analysis card">
+        <h2>AI 분석</h2>
+
+        <div class="analysis-section">
+            <h3>요약</h3>
+            <p>{{ article.ai_analysis.summary }}</p>
+        </div>
+
+        {% if article.ai_analysis.key_points %}
+        <div class="analysis-section">
+            <h3>핵심 포인트</h3>
+            <ul>
+                {% for point in article.ai_analysis.key_points %}
+                <li>{{ point }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if article.ai_analysis.situation_analysis %}
+        <div class="analysis-section">
+            <h3>현황 분석</h3>
+            <p>{{ article.ai_analysis.situation_analysis }}</p>
+        </div>
+        {% endif %}
+
+        {% if article.ai_analysis.prediction %}
+        <div class="analysis-section">
+            <h3>전망</h3>
+            <p>{{ article.ai_analysis.prediction }}</p>
+        </div>
+        {% endif %}
+
+        <div class="analysis-meta">
+            <span class="sentiment {{ article.ai_analysis.sentiment }}">{{ article.ai_analysis.sentiment }}</span>
+            <span class="importance">중요도: {{ article.ai_analysis.importance }}/10</span>
+            {% if article.ai_analysis.keywords %}
+            <div class="keywords">
+                {% for kw in article.ai_analysis.keywords %}
+                <a href="/search?q={{ kw }}" class="keyword-tag">{{ kw }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </section>
+    {% endif %}
+</article>
+{% endblock %}
