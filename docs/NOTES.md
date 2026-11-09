@@ -75,7 +75,7 @@
 - 공개용 저장소를 새로 받아 한 사이클 실행하던 중, 외장 스토리지 없이 기동하면 사이클 시작 시 로컬 ChromaDB를 삭제하는 버그 발견 후 수정. 운영 환경은 항상 외장 연결 상태라 미노출
 - 외부 노출 점검 중 인증 없이 열린 수동 수집 엔드포인트 발견 후 차단
 
-이 저장소는 운영 중인 서비스 코드를 공개용으로 정리한 스냅샷. 메모도 AI 작성이며 방향 전환은 대화 중 결정되어 기록 없음. 상세는 [docs/AI-COLLABORATION.md](AI-COLLABORATION.md), 같은 방식을 다른 프로젝트에 적용한 정리는 [MindFlow 케이스 스터디](https://github.com/thefirstplum/mindflow-case-study) 참조.
+이 저장소는 운영 중인 서비스 코드를 공개용으로 정리한 스냅샷. 메모도 AI 작성이며 방향 전환은 대화 중 결정되어 기록 없음. 상세는 [docs/AI-COLLABORATION.md](AI-COLLABORATION.md) 참조.
 
 ## 향후 개선 과제
 
